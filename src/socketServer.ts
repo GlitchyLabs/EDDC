@@ -3,7 +3,7 @@ import { Server } from 'ws';
 import { ExtendedWebSocket, SocketClient } from './socketClientModel';
 import logger from './utils/logger';
 
-export type EventServerOptions = {
+export type SocketServerOptions = {
   host?: string;
   port?: number;
 }
@@ -13,7 +13,7 @@ export class SocketServer extends EventEmitter{
   server: Server;
   authenticated: boolean;
 
-  constructor(options?: EventServerOptions) {
+  constructor(options?: SocketServerOptions) {
     super();
     this.server = new Server({
       port: options?.port || 31337

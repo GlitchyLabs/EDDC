@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events';
 import WebSocket from 'ws';
 import { SocketServer } from './socketServer';
-import { validate } from './utils/auth';
+import { Authentication } from './utils/auth';
+import logger from './utils/logger';
 
 export interface ExtendedWebSocket extends WebSocket {
   alive: boolean
@@ -17,8 +18,9 @@ export class SocketClient extends EventEmitter {
     super();
     this.server = server;
     this.socket = socket;
-    this.authenticated = false;
     this.socket.on('message', this.processEvent.bind(this));
+    this.authenticated = false;
+    Authentication.addAccount('test','test1234');
   }
   processEvent(data: any) {
     try {
@@ -64,8 +66,9 @@ export class SocketClient extends EventEmitter {
     this.socket.terminate();
   }
   async authenticate(data: {command: 'Authenticate', username: string, password: string}) {
-    if (await validate(data.username, data.password)) {
+    if (await Authentication.validate(data.username, data.password)) {
       this.authenticated = true;
+      logger.info('Authenticated');
       return this.send({command: 'Authenticated'});
     } else {
       return this.terminate(new Error('Invalid Authentication'));

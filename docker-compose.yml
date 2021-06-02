@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  app:
+  server:
     build: .
     image: glitchy/eddc:dev
     restart: unless-stopped
@@ -10,14 +10,14 @@ services:
     cap_drop:
       - ALL
     env_file:
-      - .env
+      - .env.production
   db:
     image: mariadb:latest
     user: mysql:mysql
     ports:
       - 3306:3306/tcp
     env_file:
-      - .env
+      - .env.production
     volumes:
       - db_data:/var/lib/mysql
 

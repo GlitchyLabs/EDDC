@@ -46,6 +46,7 @@ export class DiscordClient {
         content = new MessageEmbed();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump >>>');
+        content.addField('Carrier', data.Name);
         content.addField('Destination', data.StarSystem);
         break;
       }
@@ -53,6 +54,7 @@ export class DiscordClient {
         content = new MessageEmbed();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Request');
+        content.addField('Carrier', data.Name);
         content.addField('Destination', data.SystemName);
         break;
       }
@@ -60,6 +62,7 @@ export class DiscordClient {
         content = new MessageEmbed();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Canceled');
+        content.addField('Carrier', data.Name);
         break;
       }
       default: {
