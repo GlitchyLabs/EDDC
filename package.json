@@ -9,7 +9,10 @@
     "postbuild": "mv ./lib/src/* ./lib/ && rm -rf ./lib/__test__ ./lib/src",
     "prestart": "npm run build",
     "start": "node -r dotenv/config .",
-    "test": "jest"
+    "test": "jest --",
+    "coverage": "jest --collectCoverage --",
+    "preci:test": "npm run build",
+    "ci:test": "npm run coverage"
   },
   "author": "Glitchy Labs <glitchylabs@gmail.com>",
   "license": "MIT",
