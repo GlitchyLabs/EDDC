@@ -8,13 +8,11 @@ on:
     branches: [ master, develop ]
 jobs:
   build:
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
-        - name: Use Node.js 14.x
-          uses: actions/setup-node@v1
+        - uses: actions/setup-node@v1
           with:
-            node-version: "14.x"
+            node-version: 14.x
         - run: npm ci-test
-        - name: Code Climate Test Reporter
-          uses: aktions/codeclimate-test-reporter@v1
+        - uses: aktions/codeclimate-test-reporter@v1
