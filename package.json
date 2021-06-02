@@ -1,7 +1,7 @@
 {
   "name": "@glitchy/eddc",
   "version": "1.0.0",
-  "description": "Elite Dangerous Discord Connector",
+  "description": "Elite Dangerous Data Connector",
   "main": "lib/index.js",
   "scripts": {
     "prebuild": "rm -rf ./lib",
