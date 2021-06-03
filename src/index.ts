@@ -2,8 +2,9 @@ import { SocketServerOptions, SocketServer } from './socketServer';
 import { DiscordClient } from './discordClient';
 import { DataStore } from './dataStore';
 
+// TODO: Make discord optional
 const discord = new DiscordClient({
-  token: process.env.DISCORD_KEY
+  token: process.env.DISCORD_BOT_TOKEN
 });
 
 const socketOptions: SocketServerOptions = {
@@ -12,7 +13,10 @@ const socketOptions: SocketServerOptions = {
 
 const server = new SocketServer(socketOptions);
 const dataStore = new DataStore();
+
 server.on('event', (data) => {
+  // TODO: Update this to send to multiple registered
+  // services (Discord, IRC, ETC).
   switch(data.event) {
     case "CarrierStats": {
       dataStore.set(data.CarrierID, data.Name);
