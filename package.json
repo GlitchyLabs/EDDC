@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.0.0-dev.fdad14099779e61cb84dcd1cb2497e0e853a6144",
     "irc": "git+https://gitlab.com/TheMas3212/typescript-irc-client.git",
     "jimp": "^0.16.1",
     "jsonfile": "^6.1.0",
