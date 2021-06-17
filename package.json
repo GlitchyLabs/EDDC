@@ -26,14 +26,12 @@
     "discord.js": "^13.0.0-dev.fdad14099779e61cb84dcd1cb2497e0e853a6144",
     "irc": "git+https://gitlab.com/TheMas3212/typescript-irc-client.git",
     "jimp": "^0.16.1",
-    "jsonfile": "^6.1.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "ws": "^7.4.5"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
-    "@types/jsonfile": "^6.0.0",
     "@types/node": "^14.0.0",
     "@types/uuid": "^8.3.0",
     "@types/ws": "^7.4.4",
