@@ -1,14 +1,15 @@
-import { Client, EmbedBuilder, TextChannel, GuildMember, Permissions } from 'discord.js';
+import { Client, EmbedBuilder, TextChannel, GuildMember, Permissions, PermissionsBitField, Partials } from 'discord.js';
 import logger from './utils/logger';
 
-const BOT_DEFAULT_PERMISSIONS = new Permissions([
-  "SEND_MESSAGES",
-  "SEND_TTS_MESSAGES",
-  "EMBED_LINKS",
-  "ADD_REACTIONS",
-  "USE_APPLICATION_COMMANDS",
-  "MANAGE_CHANNELS"
-])
+
+const BOT_DEFAULT_PERMISSIONS = [
+  PermissionsBitField.Flags.SendMessages,
+  PermissionsBitField.Flags.SendTTSMessages,
+  PermissionsBitField.Flags.EmbedLinks,
+  PermissionsBitField.Flags.AddReactions,
+  PermissionsBitField.Flags.UseApplicationCommands,
+  PermissionsBitField.Flags.ManageChannels,
+];
 
 export type DiscordOptions = {
   token: string;
@@ -28,7 +29,7 @@ export class DiscordClient {
         "DirectMessageReactions"
       ],
       partials: [
-        "CHANNEL"
+        Partials.Channel
       ]
     });
     this.eventChannels = [];
@@ -39,9 +40,12 @@ export class DiscordClient {
       logger.info(`Logged in as ${this.client.user.tag}! [${ssl.remaining}/${ssl.total}]}`);
       for (const [id, guild] of this.client.guilds.cache) {
         const owner = await guild.members.fetch(guild.ownerId);
-        logger.info(`${guild.name}:${owner.user.username}:${guild.me.permissions.has(BOT_DEFAULT_PERMISSIONS)}`);
+        
+        //not working due to perms change
+        //logger.info(`${guild.name}:${owner.user.username}:${permissions.has(BOT_DEFAULT_PERMISSIONS)}`);
       }
-      logger.info(`Generated Invite Link is: ${this.client.generateInvite({ permissions: BOT_DEFAULT_PERMISSIONS })}`)
+      //not working due to perms change
+      //logger.info(`Generated Invite Link is: ${this.client.generateInvite({ permissions: BOT_DEFAULT_PERMISSIONS })}`)
     });
 
     this.client.on('message', async msg => {
