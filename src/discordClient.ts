@@ -1,14 +1,15 @@
-import { Client, MessageEmbed, TextChannel, GuildMember, Permissions } from 'discord.js';
+import { Client, EmbedBuilder, TextChannel, GuildMember, Permissions, PermissionsBitField, Partials } from 'discord.js';
 import logger from './utils/logger';
 
-const BOT_DEFAULT_PERMISSIONS = new Permissions([
-  "SEND_MESSAGES",
-  "SEND_TTS_MESSAGES",
-  "EMBED_LINKS",
-  "ADD_REACTIONS",
-  "USE_APPLICATION_COMMANDS",
-  "MANAGE_CHANNELS"
-])
+
+const BOT_DEFAULT_PERMISSIONS = [
+  PermissionsBitField.Flags.SendMessages,
+  PermissionsBitField.Flags.SendTTSMessages,
+  PermissionsBitField.Flags.EmbedLinks,
+  PermissionsBitField.Flags.AddReactions,
+  PermissionsBitField.Flags.UseApplicationCommands,
+  PermissionsBitField.Flags.ManageChannels,
+];
 
 export type DiscordOptions = {
   token: string;
@@ -21,14 +22,14 @@ export class DiscordClient {
   constructor(options?: DiscordOptions) {
     this.client = new Client({
       intents: [
-        "GUILDS",
-        "GUILD_MESSAGES",
-        "GUILD_MESSAGE_REACTIONS",
-        "DIRECT_MESSAGES",
-        "DIRECT_MESSAGE_REACTIONS"
+        "Guilds",
+        "GuildMessages",
+        "GuildMessageReactions",
+        "DirectMessages",
+        "DirectMessageReactions"
       ],
       partials: [
-        "CHANNEL"
+        Partials.Channel
       ]
     });
     this.eventChannels = [];
@@ -38,10 +39,13 @@ export class DiscordClient {
       const ssl = this.client.ws.shards.get(0).ratelimit;
       logger.info(`Logged in as ${this.client.user.tag}! [${ssl.remaining}/${ssl.total}]}`);
       for (const [id, guild] of this.client.guilds.cache) {
-        const owner = await guild.members.fetch(guild.ownerID);
-        logger.info(`${guild.name}:${owner.user.username}:${guild.me.permissions.has(BOT_DEFAULT_PERMISSIONS)}`);
+        const owner = await guild.members.fetch(guild.ownerId);
+        
+        //not working due to perms change
+        //logger.info(`${guild.name}:${owner.user.username}:${permissions.has(BOT_DEFAULT_PERMISSIONS)}`);
       }
-      logger.info(`Generated Invite Link is: ${this.client.generateInvite({ permissions: BOT_DEFAULT_PERMISSIONS })}`)
+      //not working due to perms change
+      //logger.info(`Generated Invite Link is: ${this.client.generateInvite({ permissions: BOT_DEFAULT_PERMISSIONS })}`)
     });
 
     this.client.on('message', async msg => {
@@ -71,15 +75,19 @@ export class DiscordClient {
     let content: any = '';
     switch (data.event) {
       case "CarrierJump": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump >>>');
+        content.addFields(
+			{ name: 'Carrier', value: data.Name },
+			{ name: 'Destination', value: data.StarSystem },
+        );
         content.addField('Carrier', data.Name);
         content.addField('Destination', data.StarSystem);
         break;
       }
       case "CarrierJumpRequest": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Request');
         content.addField('Carrier', data.Name);
@@ -87,7 +95,7 @@ export class DiscordClient {
         break;
       }
       case "CarrierJumpCancelled": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Canceled');
         content.addField('Carrier', data.Name);
