@@ -121,7 +121,7 @@ Once you have your compose file ready, just use `docker-compose up` to start you
 ---
 Running the source code requires a few things. Lets go through making sure you have those first.
 
-- NodeJS (we use 14.x)
+- NodeJS (updated to 18.x)
 
 Really, that's it.  We make sure this runs on very little dependancies.
 
