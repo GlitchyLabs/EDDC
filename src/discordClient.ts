@@ -1,4 +1,4 @@
-import { Client, MessageEmbed, TextChannel, GuildMember, Permissions } from 'discord.js';
+import { Client, EmbedBuilder, TextChannel, GuildMember, Permissions } from 'discord.js';
 import logger from './utils/logger';
 
 const BOT_DEFAULT_PERMISSIONS = new Permissions([
@@ -71,15 +71,19 @@ export class DiscordClient {
     let content: any = '';
     switch (data.event) {
       case "CarrierJump": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump >>>');
+        content.addFields(
+			{ name: 'Carrier', value: data.Name },
+			{ name: 'Destination', value: data.StarSystem },
+        );
         content.addField('Carrier', data.Name);
         content.addField('Destination', data.StarSystem);
         break;
       }
       case "CarrierJumpRequest": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Request');
         content.addField('Carrier', data.Name);
@@ -87,7 +91,7 @@ export class DiscordClient {
         break;
       }
       case "CarrierJumpCancelled": {
-        content = new MessageEmbed();
+        content = new EmbedBuilder();
         content.setColor(0xf7bd00);
         content.setTitle('Carrier Jump Canceled');
         content.addField('Carrier', data.Name);
