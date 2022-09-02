@@ -21,11 +21,11 @@ export class DiscordClient {
   constructor(options?: DiscordOptions) {
     this.client = new Client({
       intents: [
-        "GUILDS",
-        "GUILD_MESSAGES",
-        "GUILD_MESSAGE_REACTIONS",
-        "DIRECT_MESSAGES",
-        "DIRECT_MESSAGE_REACTIONS"
+        "Guilds",
+        "GuildMessages",
+        "GuildMessageReactions",
+        "DirectMessages",
+        "DirectMessageReactions"
       ],
       partials: [
         "CHANNEL"
@@ -38,7 +38,7 @@ export class DiscordClient {
       const ssl = this.client.ws.shards.get(0).ratelimit;
       logger.info(`Logged in as ${this.client.user.tag}! [${ssl.remaining}/${ssl.total}]}`);
       for (const [id, guild] of this.client.guilds.cache) {
-        const owner = await guild.members.fetch(guild.ownerID);
+        const owner = await guild.members.fetch(guild.ownerId);
         logger.info(`${guild.name}:${owner.user.username}:${guild.me.permissions.has(BOT_DEFAULT_PERMISSIONS)}`);
       }
       logger.info(`Generated Invite Link is: ${this.client.generateInvite({ permissions: BOT_DEFAULT_PERMISSIONS })}`)
